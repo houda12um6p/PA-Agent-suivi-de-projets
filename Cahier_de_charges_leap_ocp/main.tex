@@ -347,15 +347,15 @@ Manager / Direction & Lecteur & Dashboard synth\'etique, KPIs, vue d'ensemble \\
 \rowcolor{tabheader}
 \textcolor{white}{\textbf{Couche}} & \textcolor{white}{\textbf{Technologies envisag\'ees}} \\
 \hline
-Frontend & React.js / Next.js (\`a confirmer) \\
+Frontend & React.js / Next.js\\
 \hline
 \rowcolor{tabalt}
-Backend & Python (FastAPI / Django) ou Node.js (\`a confirmer) \\
+Backend & Python (FastAPI / Django) ou Node.js  \\
 \hline
-Base de donn\'ees & PostgreSQL / MongoDB (\`a confirmer) \\
+Base de donn\'ees & PostgreSQL / MongoDB  \\
 \hline
 \rowcolor{tabalt}
-Module IA/NLP & Python (spaCy, Hugging Face, OpenAI API -- \`a confirmer) \\
+Module IA/NLP & Python (spaCy, Hugging Face, OpenAI API ) \\
 \hline
 Int\'egrations & API REST (Jira, GitHub/GitLab) \\
 \hline
@@ -389,7 +389,6 @@ L'application suivra une \textbf{architecture en couches} :
 % ========== 7. PLANNING ==========
 \newpage
 \section{Planning pr\'evisionnel}
-
 \begin{center}
 \arrayrulecolor{bordercolor}
 \begin{tabularx}{\textwidth}{|C{1.2cm}|L{3.2cm}|X|C{2.2cm}|}
@@ -397,22 +396,37 @@ L'application suivra une \textbf{architecture en couches} :
 \rowcolor{tabheader}
 \textcolor{white}{\textbf{Phase}} & \textcolor{white}{\textbf{\'Etape}} & \textcolor{white}{\textbf{Description}} & \textcolor{white}{\textbf{Dur\'ee}} \\
 \hline
-1 & Cadrage & Cahier des charges, analyse des besoins & 2 semaines \\
+1 & Cadrage & Cahier des charges, analyse des besoins & 1 semaine \\
 \hline
 \rowcolor{tabalt}
-2 & Conception & Architecture, maquettes, mod\`ele de donn\'ees & 2 semaines \\
+2 & Conception & Architecture, maquettes, mod\`ele de donn\'ees & 1 semaine \\
 \hline
-3 & Sprint 1 & Backend, int\'egrations API (Git, t\^aches) & 1 semaine \\
-\hline
-\rowcolor{tabalt}
-4 & Sprint 2 & Module IA/NLP, analyse des comptes rendus & 1 semaine \\
-\hline
-5 & Sprint 3 & Dashboard, alertes, interface utilisateur & 1 semaine \\
+3 & Sprint 1 & Backend, mod\`ele de donn\'ees, API de base & 1 semaine \\
 \hline
 \rowcolor{tabalt}
-6 & Tests & Tests unitaires, int\'egration, corrections & 2 semaines \\
+4 & Sprint 2 & Int\'egrations API (Git, outils de t\^aches) & 1 semaine \\
 \hline
-7 & Livraison & D\'eploiement, documentation, soutenance & 1 semaine \\
+5 & Sprint 3 & Module IA/NLP, analyse des comptes rendus & 1 semaine \\
+\hline
+\rowcolor{tabalt}
+6 & Sprint 4 & Syst\`eme d'alertes retard / surcharge & 1 semaine \\
+\hline
+7 & Sprint 5 & Dashboard -- structure et indicateurs & 1 semaine \\
+\hline
+\rowcolor{tabalt}
+8 & Sprint 6 & Dashboard -- graphiques et filtres & 1 semaine \\
+\hline
+9 & Sprint 7 & Gestion des utilisateurs et r\^oles & 1 semaine \\
+\hline
+\rowcolor{tabalt}
+10 & Sprint 8 & Int\'egration compl\`ete et tests unitaires & 1 semaine \\
+\hline
+11 & Sprint 9 & Tests d'int\'egration et corrections & 1 semaine \\
+\hline
+\rowcolor{tabalt}
+12 & Sprint 10 & Optimisation, documentation technique & 1 semaine \\
+\hline
+13 & Livraison & Retouches finales, documentation, soutenance & 1 semaine \\
 \hline
 \end{tabularx}
 \end{center}
@@ -470,32 +484,7 @@ Le projet suivra une m\'ethodologie \textbf{Agile (Scrum)} avec des sprints de 2
     \item[\textcolor{accent}{$\blacktriangleright$}] Les encadrants OCP seront disponibles pour les validations r\'eguli\`eres
     \item[\textcolor{accent}{$\blacktriangleright$}] La stack technique sera valid\'ee lors des premi\`eres r\'eunions
 \end{itemize}
-
-% ========== 11. RISQUES ==========
-\section{Risques identifi\'es}
-
-\begin{center}
-\arrayrulecolor{bordercolor}
-\begin{tabularx}{\textwidth}{|X|C{2cm}|C{1.8cm}|X|}
-\hline
-\rowcolor{tabheader}
-\textcolor{white}{\textbf{Risque}} & \textcolor{white}{\textbf{Probabilit\'e}} & \textcolor{white}{\textbf{Impact}} & \textcolor{white}{\textbf{Mitigation}} \\
-\hline
-Retard dans l'obtention des acc\`es aux outils OCP & \textcolor{accent}{Moyenne} & \textcolor{red!70!black}{\'Elev\'e} & Anticiper les demandes, utiliser des donn\'ees simul\'ees \\
-\hline
-\rowcolor{tabalt}
-Qualit\'e insuffisante des donn\'ees & \textcolor{red!70!black}{\'Elev\'ee} & \textcolor{accent}{Moyen} & Pr\'evoir un module de pr\'e-traitement \\
-\hline
-Complexit\'e du module IA/NLP & \textcolor{accent}{Moyenne} & \textcolor{red!70!black}{\'Elev\'e} & Commencer simple, puis it\'erer vers du ML \\
-\hline
-\rowcolor{tabalt}
-Changement de p\'erim\`etre & \textcolor{secondary}{Faible} & \textcolor{accent}{Moyen} & Valider le CDC et documenter les changements \\
-\hline
-Indisponibilit\'e des encadrants & \textcolor{secondary}{Faible} & \textcolor{accent}{Moyen} & Planifier les r\'eunions \`a l'avance \\
-\hline
-\end{tabularx}
-\end{center}
-
+\newpage
 % ========== 12. GLOSSAIRE ==========
 \section{Glossaire}
 
