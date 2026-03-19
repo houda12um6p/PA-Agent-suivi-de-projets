@@ -1,0 +1,22 @@
+This file contains the list of files to be removed for cleanup:
+
+Files to remove:
+- package.json
+- package-lock.json  
+- prisma.config.ts
+- requirements.txt
+- requirements-py313.txt
+- requirements-simple.txt
+- src/ (entire directory)
+- prisma/ (entire directory)
+- node_modules/ (entire directory)
+
+Files to keep:
+- requirements-minimal.txt (rename to requirements.txt)
+- .env.example
+- .env
+- .gitignore (update)
+- README.md (update)
+- alembic/
+- app/
+- app.db
