@@ -23,6 +23,5 @@ class ReviewCommentResponse(ReviewCommentBase):
     author_id: uuid.UUID
     merge_request_id: uuid.UUID
     created_at: str
-
     class Config:
         from_attributes = True

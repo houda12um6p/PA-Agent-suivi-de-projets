@@ -11,12 +11,9 @@ class CommitBase(BaseModel):
 class CommitCreate(CommitBase):
     author_id: str
     merge_request_id: str
-
-
 class CommitResponse(CommitBase):
     author_id: str
     merge_request_id: str
     commit_type: CommitType
-
     class Config:
         from_attributes = True

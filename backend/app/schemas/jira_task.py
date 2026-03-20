@@ -20,7 +20,6 @@ class JiraTaskUpdate(BaseModel):
     status: Optional[str] = None
     story_points: Optional[int] = None
 
-
 class JiraTaskResponse(JiraTaskBase):
     id: uuid.UUID
     created_at: str

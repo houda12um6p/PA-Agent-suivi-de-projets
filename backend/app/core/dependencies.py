@@ -20,7 +20,6 @@ def get_current_user(
             detail="Could not validate credentials",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    
     user = db.query(User).filter(User.email == email).first()
     if user is None:
         raise HTTPException(

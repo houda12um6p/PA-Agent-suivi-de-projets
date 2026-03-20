@@ -7,15 +7,11 @@ from ..schemas.user import UserCreate, UserLogin, UserResponse, Token
 from ..models.user import User
 
 router = APIRouter(prefix="/auth", tags=["authentication"])
-
-
 @router.post("/register", response_model=UserResponse)
 def register(user_data: UserCreate, db: Session = Depends(get_db)):
     auth_service = AuthService(db)
     user = auth_service.register_user(user_data)
     return user
-
-
 @router.post("/login", response_model=Token)
 def login(login_data: UserLogin, db: Session = Depends(get_db)):
     auth_service = AuthService(db)

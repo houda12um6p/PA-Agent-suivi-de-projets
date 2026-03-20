@@ -14,7 +14,6 @@ class GitHubService:
     def __init__(self, db: Session):
         self.db = db
         self.api_url = settings.github_api_url
-
     async def fetch_commits(self, repo_owner: str, repo_name: str) -> List[Dict[str, Any]]:
         return [
             {

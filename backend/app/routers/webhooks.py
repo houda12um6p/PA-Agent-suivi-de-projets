@@ -13,8 +13,6 @@ router = APIRouter(prefix="/webhooks", tags=["webhooks"])
 class WebhookResponse(BaseModel):
     status: str
     message: str = ""
-
-
 @router.post("/github/push", response_model=WebhookResponse)
 async def github_push_webhook(request: Request, db: Session = Depends(get_db)):
     try:

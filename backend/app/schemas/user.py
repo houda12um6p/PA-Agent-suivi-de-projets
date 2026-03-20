@@ -14,7 +14,6 @@ class UserBase(BaseModel):
     name: str
     email: str  
     role: UserRole = UserRole.DEVELOPER
-
 class UserCreate(UserBase):
     password: str
 
@@ -24,7 +23,6 @@ class UserUpdate(BaseModel):
     email: Optional[str] = None
     role: Optional[UserRole] = None
     total_score: Optional[float] = None
-
 
 class UserResponse(UserBase):
     id: uuid.UUID

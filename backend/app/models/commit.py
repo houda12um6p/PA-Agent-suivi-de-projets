@@ -9,24 +9,17 @@ class CommitType(str, enum.Enum):
     BUGFIX = "bugfix"
     REFACTOR = "refactor"
     OTHER = "other"
-
-
 class Commit(Base):
     __tablename__ = "commits"
-
     sha = Column(String, primary_key=True)
     message = Column(String, nullable=False)
     author_id = Column(String, ForeignKey("users.id"), nullable=False)
     merge_request_id = Column(String, ForeignKey("merge_requests.id"), nullable=False)
     date = Column(DateTime, nullable=False)
-
     author = relationship("User", back_populates="commits")
     merge_request = relationship("MergeRequest", back_populates="commits")
-
     def analyze_message(self) -> CommitType:
-        """Analyze commit message to determine type"""
-        message_lower = self.message.lower()
-        
+        message_lower = self.message.lower() 
         if message_lower.startswith('feat'):
             return CommitType.FEATURE
         elif message_lower.startswith('fix'):

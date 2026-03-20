@@ -4,11 +4,8 @@ from sqlalchemy.orm import relationship
 from ..core.database import Base
 import uuid
 import re
-
-
 class MergeRequest(Base):
     __tablename__ = "merge_requests"
-
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     github_id = Column(Integer, nullable=True)
     title = Column(String, nullable=False)
@@ -20,16 +17,12 @@ class MergeRequest(Base):
     story_points = Column(Integer, default=0)
     created_at = Column(DateTime, nullable=False)
     updated_at = Column(DateTime, nullable=False)
-
-    # Relationships
     author = relationship("User", back_populates="merge_requests")
     project = relationship("Project", back_populates="merge_requests")
     jira_task = relationship("JiraTask", back_populates="merge_requests")
     commits = relationship("Commit", back_populates="merge_request")
     review_comments = relationship("ReviewComment", back_populates="merge_request")
-
     def extract_jira_key(self) -> str:
-        """Extract Jira key from title using regex pattern like LEAP-24 or ABC-101"""
         pattern = r'([A-Z]+-\d+)'
         match = re.search(pattern, self.title)
         return match.group(1) if match else None

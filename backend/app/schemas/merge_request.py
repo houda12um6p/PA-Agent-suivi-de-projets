@@ -9,8 +9,6 @@ class MergeRequestBase(BaseModel):
     status: str
     score: float = 0.0
     story_points: int = 0
-
-
 class MergeRequestCreate(MergeRequestBase):
     author_id: uuid.UUID
     project_id: uuid.UUID
@@ -33,6 +31,5 @@ class MergeRequestResponse(MergeRequestBase):
     jira_task_id: Optional[uuid.UUID] = None
     created_at: str
     updated_at: str
-
     class Config:
         from_attributes = True

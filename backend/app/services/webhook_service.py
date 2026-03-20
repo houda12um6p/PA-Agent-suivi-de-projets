@@ -8,15 +8,11 @@ from ..services.jira_service import JiraService
 import uuid
 from datetime import datetime
 import logging
-
 logger = logging.getLogger(__name__)
-
-
 class WebhookService:
     def __init__(self, db: Session):
         self.db = db
         self.jira_service = JiraService(db)
-
     async def handle_github_push(self, payload: Dict[str, Any]) -> Dict[str, Any]:
         try:
             repo_name = payload.get("repository", {}).get("name")
@@ -33,7 +29,6 @@ class WebhookService:
                     "message": message,
                     "processed": True
                 })
-            
             return {
                 "status": "success",
                 "repo": repo_name,
@@ -42,7 +37,6 @@ class WebhookService:
         except Exception as e:
             logger.error(f"Error handling GitHub push webhook: {str(e)}")
             return {"status": "error", "message": str(e)}
-
     async def handle_github_pull_request(self, payload: Dict[str, Any]) -> Dict[str, Any]:
         try:
             action = payload.get("action")

@@ -8,8 +8,6 @@ class AlertBase(BaseModel):
     severity: str
     message: str
     is_resolved: bool = False
-
-
 class AlertCreate(AlertBase):
     project_id: uuid.UUID
 

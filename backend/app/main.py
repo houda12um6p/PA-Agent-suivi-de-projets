@@ -4,7 +4,6 @@ from .core.config import settings
 from .routers import auth, github, jira, webhooks
 from .core.database import Base, engine
 Base.metadata.create_all(bind=engine)
-
 app = FastAPI(
     title=settings.project_name,
     openapi_url=f"{settings.api_v1_str}/openapi.json"
@@ -23,8 +22,6 @@ app.include_router(webhooks.router, prefix=settings.api_v1_str)
 @app.get("/")
 def root():
     return {"message": "FastAPI Backend is running", "docs": "/docs"}
-
-
 @app.get("/health")
 def health_check():
     return {"status":"healthy", "service": settings.project_name}

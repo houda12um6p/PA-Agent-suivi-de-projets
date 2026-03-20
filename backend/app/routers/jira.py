@@ -8,12 +8,8 @@ from pydantic import BaseModel
 import uuid
 
 router = APIRouter(prefix="/jira", tags=["jira"])
-
-
 class SyncRequest(BaseModel):
     project_key: str
-
-
 class SprintResponse(BaseModel):
     id: int
     name: str
@@ -30,7 +26,6 @@ class LinkRequest(BaseModel):
 
 @router.post("/sync/tasks")
 async def sync_tasks(sync_request: SyncRequest, db: Session = Depends(get_db)):
-    """Sync tasks from Jira project"""
     jira_service = JiraService(db)
     try:
         tasks = await jira_service.sync_tasks(sync_request.project_key)
@@ -44,7 +39,6 @@ async def sync_tasks(sync_request: SyncRequest, db: Session = Depends(get_db)):
 
 @router.get("/sprints", response_model=List[SprintResponse])
 async def get_sprints(board_id: str, db: Session = Depends(get_db)):
-    """Get sprints from Jira board (not stored in database)"""
     jira_service = JiraService(db)
     try:
         sprints = await jira_service.fetch_sprints(board_id)

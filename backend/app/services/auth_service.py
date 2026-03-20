@@ -10,7 +10,6 @@ from ..core.config import settings
 class AuthService:
     def __init__(self, db: Session):
         self.db = db
-
     def register_user(self, user_data: UserCreate) -> User:
         existing_user = self.db.query(User).filter(User.email == user_data.email).first()
         if existing_user:
@@ -18,7 +17,6 @@ class AuthService:
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="Email already registered"
             )
-        
         hashed_password = get_password_hash(user_data.password)
         db_user = User(
             name=user_data.name,
@@ -27,7 +25,6 @@ class AuthService:
             role=user_data.role,
             total_score=0.0
         )
-        
         self.db.add(db_user)
         self.db.commit()
         self.db.refresh(db_user)

@@ -11,7 +11,6 @@ class JiraService:
     def __init__(self, db: Session):
         self.db = db
         self.api_url = settings.jira_api_url
-
     async def fetch_tasks(self, project_key: str) -> List[Dict[str, Any]]:
         return [
             {
@@ -59,9 +58,7 @@ class JiraService:
                 "goal": "Implement user management"
             }
         ]
-
     async def sync_tasks(self, project_key: str) -> List[JiraTask]:
-        """Sync tasks from Jira to database"""
         tasks_data = await self.fetch_tasks(project_key)
         synced_tasks = []
 
@@ -89,20 +86,16 @@ class JiraService:
         return synced_tasks
 
     def find_jira_task_by_key(self, jira_key: str) -> Optional[JiraTask]:
-        """Find a Jira task by its key"""
         return self.db.query(JiraTask).filter(JiraTask.jira_key == jira_key).first()
 
     def link_merge_request_to_jira_task(self, merge_request_id: uuid.UUID, jira_key: str) -> bool:
-        """Link a merge request to a Jira task"""
         jira_task = self.find_jira_task_by_key(jira_key)
         if not jira_task:
             return False
-
         from ..models.merge_request import MergeRequest
         merge_request = self.db.query(MergeRequest).filter(MergeRequest.id == merge_request_id).first()
         if not merge_request:
             return False
-
         merge_request.jira_task_id = jira_task.id
         self.db.commit()
         return True
