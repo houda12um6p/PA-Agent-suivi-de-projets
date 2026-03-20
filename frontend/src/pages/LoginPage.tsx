@@ -19,16 +19,6 @@ export default function LoginPage() {
     setError('');
     setLoading(true);
     try {
-      if (email === 'houda@ocp.ma' && password === 'test1234') {
-        const mockToken = 'mock-token-123';
-        const mockUser  = { id: '1', name: 'Houda', email: 'houda@ocp.ma', total_score: 850 };
-        localStorage.setItem('token', mockToken);
-        localStorage.setItem('user', JSON.stringify(mockUser));
-        saveSession(mockToken, mockUser);
-        navigate('/dashboard');
-        return;
-      }
-
       const { access_token } = await login(email, password);
       localStorage.setItem('token', access_token);
       const user = await me();
