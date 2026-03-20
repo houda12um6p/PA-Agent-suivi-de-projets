@@ -12,7 +12,6 @@ export default function DashboardPage() {
   const [loadingAlerts, setLoadingAlerts] = useState(true);
 
   useEffect(() => {
-    // first get projects, then fetch scores + alerts for the first one
     getProjects().then(projects => {
       if (projects.length === 0) {
         setLoadingScores(false);

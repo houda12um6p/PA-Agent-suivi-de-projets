@@ -15,7 +15,6 @@ class ReviewComment(Base):
     merge_request_id = Column(UUID(as_uuid=True), ForeignKey("merge_requests.id"), nullable=False)
     created_at = Column(DateTime, nullable=False)
 
-    # Relationships
     author = relationship("User", back_populates="review_comments")
     merge_request = relationship("MergeRequest", back_populates="review_comments")
 

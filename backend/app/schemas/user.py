@@ -12,9 +12,8 @@ import uuid
 
 class UserBase(BaseModel):
     name: str
-    email: str  # Using regular string for compatibility
+    email: str  
     role: UserRole = UserRole.DEVELOPER
-
 
 class UserCreate(UserBase):
     password: str
@@ -33,13 +32,11 @@ class UserResponse(UserBase):
     created_at: str
 
     class Config:
-        from_attributes = True
-
+        from_attributes =True
 
 class UserLogin(BaseModel):
     email: str
     password: str
-
 
 class Token(BaseModel):
     access_token: str

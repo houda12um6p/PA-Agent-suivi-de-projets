@@ -8,15 +8,11 @@ interface AuthContextType {
   login: (token: string, user: User) => void;
   logout: () => void;
 }
-
-// create the context with a default of null — will be filled by the provider
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [token, setToken] = useState<string | null>(null);
   const [user, setUser] = useState<User | null>(null);
-
-  // on first load, restore session from localStorage if it exists
   useEffect(() => {
     const savedToken = localStorage.getItem('token');
     const savedUser = localStorage.getItem('user');
@@ -46,6 +42,4 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     </AuthContext.Provider>
   );
 }
-
-// export the raw context so useAuth can consume it
 export default AuthContext;

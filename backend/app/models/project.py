@@ -14,6 +14,5 @@ class Project(Base):
     status = Column(String, nullable=False)
     created_at = Column(DateTime, nullable=False)
 
-    # Relationships
     merge_requests = relationship("MergeRequest", back_populates="project")
     alerts = relationship("Alert", back_populates="project")

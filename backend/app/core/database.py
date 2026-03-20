@@ -3,10 +3,9 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from .config import settings
 
-# Use SQLite for Python 3.13 compatibility
 engine = create_engine(
     settings.database_url,
-    connect_args={"check_same_thread": False}  # SQLite specific
+    connect_args={"check_same_thread": False}  
 )
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 

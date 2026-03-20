@@ -12,7 +12,6 @@ class AuthService:
         self.db = db
 
     def register_user(self, user_data: UserCreate) -> User:
-        # Check if user already exists
         existing_user = self.db.query(User).filter(User.email == user_data.email).first()
         if existing_user:
             raise HTTPException(
@@ -20,7 +19,6 @@ class AuthService:
                 detail="Email already registered"
             )
         
-        # Create new user
         hashed_password = get_password_hash(user_data.password)
         db_user = User(
             name=user_data.name,

@@ -11,7 +11,6 @@ export default function AlertsPage() {
   const [error, setError]     = useState('');
 
   useEffect(() => {
-    // get the first project, then load its alerts
     getProjects()
       .then(projects => {
         if (projects.length === 0) return [];

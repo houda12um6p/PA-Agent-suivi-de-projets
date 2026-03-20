@@ -22,7 +22,6 @@ class User(Base):
     total_score = Column(Float, default=0.0)
     created_at = Column(DateTime, nullable=False)
 
-    # Relationships
     merge_requests = relationship("MergeRequest", back_populates="author")
     commits = relationship("Commit", back_populates="author")
     review_comments = relationship("ReviewComment", back_populates="author")

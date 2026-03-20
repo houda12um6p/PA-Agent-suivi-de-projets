@@ -20,7 +20,6 @@ class Commit(Base):
     merge_request_id = Column(String, ForeignKey("merge_requests.id"), nullable=False)
     date = Column(DateTime, nullable=False)
 
-    # Relationships
     author = relationship("User", back_populates="commits")
     merge_request = relationship("MergeRequest", back_populates="commits")
 

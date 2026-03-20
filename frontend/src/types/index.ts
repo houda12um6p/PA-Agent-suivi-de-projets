@@ -12,13 +12,12 @@ export interface Project {
   status: string;
   score: number;
 }
-
 export interface MergeRequest {
   id: number;
-  title: string;
+  title : string;
   status: string;
   final_score: number;
-  created_at: string;
+  created_at : string;
 }
 
 export interface ReviewComment {
@@ -36,7 +35,7 @@ export interface Commit {
   commit_type: string;
 }
 
-export interface JiraTask {
+export interface  JiraTask {
   id: number;
   title: string;
   status: string;
@@ -50,7 +49,6 @@ export interface Alert {
   message: string;
   is_resolved: boolean;
 }
-
 export interface Meeting {
   id: number;
   title: string;
@@ -74,7 +72,6 @@ export interface LoginRequest {
   email: string;
   password: string;
 }
-
 export interface RegisterRequest {
   name: string;
   email: string;

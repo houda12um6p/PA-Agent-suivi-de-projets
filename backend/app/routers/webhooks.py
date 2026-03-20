@@ -17,15 +17,8 @@ class WebhookResponse(BaseModel):
 
 @router.post("/github/push", response_model=WebhookResponse)
 async def github_push_webhook(request: Request, db: Session = Depends(get_db)):
-    """Handle GitHub push webhook"""
     try:
-        # Get raw JSON payload
         payload = await request.json()
-        
-        # Verify webhook signature (in real implementation)
-        # signature = request.headers.get("X-Hub-Signature-256")
-        # if not verify_webhook_signature(payload, signature):
-        #     raise HTTPException(status_code=401, detail="Invalid signature")
         
         webhook_service = WebhookService(db)
         result = await webhook_service.handle_github_push(payload)
@@ -114,7 +107,6 @@ async def github_review_comment_webhook(request: Request, db: Session = Depends(
 
 @router.post("/jira/issue-updated", response_model=WebhookResponse)
 async def jira_issue_webhook(request: Request, db: Session = Depends(get_db)):
-    """Handle Jira issue updated webhook"""
     try:
         payload = await request.json()
         

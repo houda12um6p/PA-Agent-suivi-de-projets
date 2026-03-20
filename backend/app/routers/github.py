@@ -24,7 +24,6 @@ class BranchResponse(BaseModel):
 
 @router.post("/sync/commits")
 async def sync_commits(sync_request: SyncRequest, db: Session = Depends(get_db)):
-    """Sync commits from GitHub repository"""
     github_service = GitHubService(db)
     try:
         commits = await github_service.sync_commits(
@@ -42,7 +41,6 @@ async def sync_commits(sync_request: SyncRequest, db: Session = Depends(get_db))
 
 @router.post("/sync/pull-requests")
 async def sync_pull_requests(sync_request: SyncRequest, db: Session = Depends(get_db)):
-    """Sync pull requests from GitHub repository"""
     github_service = GitHubService(db)
     try:
         pull_requests = await github_service.sync_pull_requests(
@@ -60,7 +58,6 @@ async def sync_pull_requests(sync_request: SyncRequest, db: Session = Depends(ge
 
 @router.get("/branches", response_model=List[BranchResponse])
 async def get_branches(repo_owner: str, repo_name: str, db: Session = Depends(get_db)):
-    """Get branches from GitHub repository (not stored in database)"""
     github_service = GitHubService(db)
     try:
         branches = await github_service.fetch_branches(repo_owner, repo_name)

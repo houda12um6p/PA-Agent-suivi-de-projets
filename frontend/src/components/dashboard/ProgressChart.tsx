@@ -2,8 +2,6 @@ interface ProgressChartProps {
   label: string;
   percentage: number;
 }
-
-// progress bar 
 export default function ProgressChart({ label, percentage }: ProgressChartProps) {
   const clamped = Math.min(100, Math.max(0, percentage));
 

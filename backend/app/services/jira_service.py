@@ -13,9 +13,6 @@ class JiraService:
         self.api_url = settings.jira_api_url
 
     async def fetch_tasks(self, project_key: str) -> List[Dict[str, Any]]:
-        """Fetch tasks/issues from Jira (mock implementation)"""
-        # This would normally make an HTTP request to Jira API
-        # For now, return mock data
         return [
             {
                 "key": "LEAP-24",
@@ -44,9 +41,6 @@ class JiraService:
         ]
 
     async def fetch_sprints(self, board_id: str) -> List[Dict[str, Any]]:
-        """Fetch sprint data from Jira (mock implementation)"""
-        # This would normally make an HTTP request to Jira API
-        # For now, return mock data - sprints are NOT stored in DB
         return [
             {
                 "id": 123,
@@ -72,17 +66,14 @@ class JiraService:
         synced_tasks = []
 
         for task_data in tasks_data:
-            # Check if task already exists
             existing_task = self.db.query(JiraTask).filter(JiraTask.jira_key == task_data["key"]).first()
             if existing_task:
-                # Update existing task
                 existing_task.title = task_data["title"]
                 existing_task.status = task_data["status"]
                 existing_task.story_points = task_data["story_points"]
                 existing_task.updated_at = datetime.fromisoformat(task_data["updated_at"].replace('Z', '+00:00'))
                 synced_tasks.append(existing_task)
             else:
-                # Create new task
                 jira_task = JiraTask(
                     jira_key=task_data["key"],
                     title=task_data["title"],
