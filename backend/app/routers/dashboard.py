@@ -62,7 +62,7 @@ def get_scores(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ) -> List[Dict[str, Any]]:
-    """Developer scores for a project, sorted highest first. Returns [] if no data."""
+    #Developer scores for a project, sorted highest first. Returns [] if no data.
     project = db.query(Project).filter(Project.id == project_id).first()
     if not project:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Project not found")
@@ -95,7 +95,6 @@ def get_timeline(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ) -> List[Dict[str, Any]]:
-    """Score history grouped by week (Monday of the week). Returns [] if no data."""
     project = db.query(Project).filter(Project.id == project_id).first()
     if not project:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Project not found")

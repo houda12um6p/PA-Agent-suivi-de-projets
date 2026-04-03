@@ -33,13 +33,15 @@ class MergeRequest(Base):
     story_points = Column(Integer, default=0)
     # Lines that were refactored in this MR — used as linear penalty Lr in scoring formula
     refactored_lines = Column(Integer, default=0)
+    # Total lines changed (additions + deletions) — represents L in the scoring formula
+    lines_modified = Column(Integer, default=0)
     # Added defaults so records can be created without passing timestamps explicitly
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
     updated_at = Column(DateTime, nullable=False, default=datetime.utcnow)
     author = relationship("User", back_populates="merge_requests")
     project = relationship("Project", back_populates="merge_requests")
     jira_task = relationship("JiraTask", back_populates="merge_requests")
-    # Cascade: deleting a MergeRequest removes its commits and review comments
+    # deleting a MergeRequest removes its commits and review comments
     commits = relationship("Commit", back_populates="merge_request", cascade="all, delete-orphan")
     review_comments = relationship("ReviewComment", back_populates="merge_request", cascade="all, delete-orphan")
 

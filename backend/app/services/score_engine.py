@@ -1,21 +1,22 @@
 """
 Scoring engine for merge requests and developers.
 
-Formula (validated by supervisors):
-    Score = max(0, B - b^max(0, Cp - SP) - Lr)
+Formula (optimized):
+    Score = 1000 × e^(-0.07 × max(0, Xnorm - Δ))
 
 Where:
-    B  = 1000     base score
-    b  = 1.4      exponential penalty base
-    Cp = number of review comments flagged as problems (is_problem = True)
-    SP = story points from the linked Jira task (0 if no task linked)
-    Lr = refactored lines in this MR (0 if not set)
-
-The exponential penalty b^(Cp-SP) only kicks in when Cp exceeds SP.
-As long as the number of problems stays within the story-point budget, the
-penalty stays at b^0 = 1 (minimal). Beyond that it grows fast.
+    X     = sum of severity_weight of all review comments on the MR
+            (suggestion=0, minor=1, correctness bug=3, critical=5)
+    L     = lines_modified on the MR (additions + deletions)
+    Xnorm = X / sqrt(1 + L)   — normalizes by PR size so large PRs
+                                  aren't penalized just for being big
+    Δ     = story_points from the linked JiraTask (0 if none)
+            — complexity allowance: harder tasks get more free severity
+    k     = 0.07              — harshness constant
+                                (every 10 excess normalized points ≈ score halved)
 """
 
+import math
 import uuid
 
 from fastapi import HTTPException, status
@@ -25,9 +26,8 @@ from ..models.merge_request import MergeRequest
 from ..models.review_comment import ReviewComment
 from ..models.user import User
 
-# --- Formula constants ---
-B: float = 1000.0   # base score every MR starts with
-b: float = 1.4      # base of the exponential penalty
+# Harshness constant: every 10 excess normalized severity points halves the score
+k: float = 0.07
 
 
 def calculate_mr_score(mr_id: uuid.UUID, db: Session) -> float:
@@ -36,11 +36,12 @@ def calculate_mr_score(mr_id: uuid.UUID, db: Session) -> float:
 
     Steps:
       1. Load the MR (404 if missing)
-      2. Count problem comments (is_problem = True)
-      3. Get story points from the linked Jira task (0 if none)
-      4. Get refactored lines from the MR (0 if not set)
-      5. Apply the formula, clamp to 0
-      6. Persist the new score and return it
+      2. X     — sum of severity_weight across all review comments
+      3. L     — total lines modified in this MR
+      4. Xnorm — normalize X by PR size so large PRs aren't penalized unfairly
+      5. delta — story-point allowance from the linked Jira task
+      6. Apply the formula and round to 2 decimal places
+      7. Persist the new score and return it
     """
     mr = db.query(MergeRequest).filter(MergeRequest.id == mr_id).first()
     if not mr:
@@ -49,26 +50,28 @@ def calculate_mr_score(mr_id: uuid.UUID, db: Session) -> float:
             detail=f"MergeRequest {mr_id} not found",
         )
 
-    # Cp — problem comments on this MR
-    Cp = (
+    # X — raw severity load (suggestions=0 contribute nothing)
+    comments = (
         db.query(ReviewComment)
-        .filter(
-            ReviewComment.merge_request_id == mr_id,
-            ReviewComment.is_problem == True,  # noqa: E712
-        )
-        .count()
+        .filter(ReviewComment.merge_request_id == mr_id)
+        .all()
     )
+    X = sum(c.severity_weight for c in comments)
 
-    # SP — story points budget from the linked Jira task
-    SP = mr.jira_task.story_points if mr.jira_task else 0
+    # L — total lines changed in this PR (additions + deletions)
+    L = mr.lines_modified or 0
 
-    # Lr — refactored lines (linear penalty)
-    Lr = mr.refactored_lines or 0
+    # Xnorm — size-normalized severity: larger PRs naturally have more comments,
+    # so we divide by sqrt(1 + L) to keep the scale fair
+    Xnorm = X / math.sqrt(1 + L)
 
-    # Apply formula: exponential penalty only kicks in when Cp exceeds SP
-    exponent = max(0, Cp - SP)
-    penalty = b ** exponent
-    score = max(0.0, B - penalty - Lr)
+    # delta — complexity allowance from the linked Jira task;
+    # more story points = harder task = more free severity before penalty kicks in
+    delta = mr.jira_task.story_points if mr.jira_task else 0
+
+    # Apply the formula: penalty only starts once Xnorm exceeds the allowance
+    x = max(0.0, Xnorm - delta)
+    score = round(1000 * math.exp(-k * x), 2)
 
     # Persist the result
     mr.score = score

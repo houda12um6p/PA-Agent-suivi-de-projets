@@ -6,7 +6,8 @@ import uuid
 
 class ReviewCommentBase(BaseModel):
     body: str
-    is_problem: bool = False
+    # 0 = suggestion, 1 = minor issue, 3 = correctness bug, 5 = critical issue
+    severity_weight: int = 0
 
 
 class ReviewCommentCreate(ReviewCommentBase):
@@ -16,7 +17,7 @@ class ReviewCommentCreate(ReviewCommentBase):
 
 class ReviewCommentUpdate(BaseModel):
     body: Optional[str] = None
-    is_problem: Optional[bool] = None
+    severity_weight: Optional[int] = None
 
 
 class ReviewCommentResponse(ReviewCommentBase):

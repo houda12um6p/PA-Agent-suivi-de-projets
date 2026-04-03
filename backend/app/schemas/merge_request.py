@@ -11,6 +11,7 @@ class MergeRequestBase(BaseModel):
     score: float = 0.0
     story_points: int = 0
     refactored_lines: int = 0
+    lines_modified: int = 0
 class MergeRequestCreate(MergeRequestBase):
     author_id: uuid.UUID
     project_id: uuid.UUID
@@ -24,6 +25,7 @@ class MergeRequestUpdate(BaseModel):
     score: Optional[float] = None
     story_points: Optional[int] = None
     refactored_lines: Optional[int] = None
+    lines_modified: Optional[int] = None
     jira_task_id: Optional[uuid.UUID] = None
 
 

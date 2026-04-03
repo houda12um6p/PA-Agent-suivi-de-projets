@@ -113,12 +113,15 @@ class GitHubService:
             existing_pr = self.db.query(MergeRequest).filter(MergeRequest.github_id == pr_data["id"]).first()
             if existing_pr:
                 continue
+            # additions + deletions come from the GitHub API; default to 0 if not present
+            lines_modified = pr_data.get("additions", 0) + pr_data.get("deletions", 0)
             merge_request = MergeRequest(
                 github_id=pr_data["id"],
                 title=pr_data["title"],
                 author_id=user.id,
                 project_id=project_id,
                 status=pr_data["status"],
+                lines_modified=lines_modified,
                 created_at=datetime.fromisoformat(pr_data["created_at"].replace('Z', '+00:00')),
                 updated_at=datetime.fromisoformat(pr_data["updated_at"].replace('Z', '+00:00'))
             )

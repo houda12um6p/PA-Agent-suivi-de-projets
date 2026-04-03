@@ -74,16 +74,13 @@ class WebhookService:
             if action in ["created", "edited", "deleted"]:
                 body = comment_data.get("body", "")
                 pr_id = pr_data.get("id")
-                problem_keywords = [
-                    'bug', 'error', 'issue', 'problem', 'fix', 'broken',
-                    'wrong', 'incorrect', 'fail', 'crash', 'exception'
-                ]
-                is_problem = any(keyword in body.lower() for keyword in problem_keywords)
+                # severity_weight defaults to 0 (suggestion) until the LLM classifier runs
+                severity_weight = 0
                 return {
                     "status": "success",
                     "action": action,
                     "pr_id": pr_id,
-                    "is_problem_detected": is_problem,
+                    "severity_weight": severity_weight,
                     "comment_length": len(body)
                 }
 
