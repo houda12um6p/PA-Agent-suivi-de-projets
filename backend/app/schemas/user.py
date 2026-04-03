@@ -1,10 +1,10 @@
+from datetime import datetime
 from pydantic import BaseModel
 from typing import Optional
 try:
     from pydantic import EmailStr
 except ImportError:
-    from email_validator import validate_email
-    EmailStr = str
+    EmailStr = str  # type: ignore[assignment, misc]
     
 from ..models.user import UserRole
 import uuid
@@ -27,7 +27,7 @@ class UserUpdate(BaseModel):
 class UserResponse(UserBase):
     id: uuid.UUID
     total_score: float
-    created_at: str
+    created_at: datetime
 
     class Config:
         from_attributes =True

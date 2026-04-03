@@ -1,3 +1,4 @@
+from datetime import datetime
 from pydantic import BaseModel
 from typing import Optional
 import uuid
@@ -22,6 +23,6 @@ class ReviewCommentResponse(ReviewCommentBase):
     id: uuid.UUID
     author_id: uuid.UUID
     merge_request_id: uuid.UUID
-    created_at: str
+    created_at: datetime
     class Config:
         from_attributes = True

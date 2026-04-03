@@ -1,3 +1,4 @@
+from datetime import datetime
 from pydantic import BaseModel
 from typing import Optional
 import uuid
@@ -9,6 +10,7 @@ class MergeRequestBase(BaseModel):
     status: str
     score: float = 0.0
     story_points: int = 0
+    refactored_lines: int = 0
 class MergeRequestCreate(MergeRequestBase):
     author_id: uuid.UUID
     project_id: uuid.UUID
@@ -21,6 +23,7 @@ class MergeRequestUpdate(BaseModel):
     status: Optional[str] = None
     score: Optional[float] = None
     story_points: Optional[int] = None
+    refactored_lines: Optional[int] = None
     jira_task_id: Optional[uuid.UUID] = None
 
 
@@ -29,7 +32,7 @@ class MergeRequestResponse(MergeRequestBase):
     author_id: uuid.UUID
     project_id: uuid.UUID
     jira_task_id: Optional[uuid.UUID] = None
-    created_at: str
-    updated_at: str
+    created_at: datetime
+    updated_at: datetime
     class Config:
         from_attributes = True

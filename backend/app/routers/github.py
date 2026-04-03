@@ -3,8 +3,6 @@ from sqlalchemy.orm import Session
 from typing import List, Dict, Any
 from ..core.database import get_db
 from ..services.github_service import GitHubService
-from ..schemas.merge_request import MergeRequestResponse
-from ..schemas.commit import CommitResponse
 from pydantic import BaseModel
 import uuid
 

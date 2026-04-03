@@ -1,6 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Request
 from sqlalchemy.orm import Session
-from typing import Dict, Any
 from ..core.database import get_db
 from ..services.webhook_service import WebhookService
 from pydantic import BaseModel
@@ -41,7 +40,6 @@ async def github_push_webhook(request: Request, db: Session = Depends(get_db)):
 
 @router.post("/github/pull-request", response_model=WebhookResponse)
 async def github_pull_request_webhook(request: Request, db: Session = Depends(get_db)):
-    """Handle GitHub pull request webhook"""
     try:
         payload = await request.json()
         
@@ -73,7 +71,6 @@ async def github_pull_request_webhook(request: Request, db: Session = Depends(ge
 
 @router.post("/github/review-comment", response_model=WebhookResponse)
 async def github_review_comment_webhook(request: Request, db: Session = Depends(get_db)):
-    """Handle GitHub review comment webhook"""
     try:
         payload = await request.json()
         

@@ -1,3 +1,5 @@
+from typing import Optional
+
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status
 from ..models.user import User
@@ -47,5 +49,5 @@ class AuthService:
         )
         return access_token
 
-    def get_user_by_email(self, email: str) -> User:
+    def get_user_by_email(self, email: str) -> Optional[User]:
         return self.db.query(User).filter(User.email == email).first()

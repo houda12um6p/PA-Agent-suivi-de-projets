@@ -1,9 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from typing import List, Dict, Any
+from typing import List
 from ..core.database import get_db
 from ..services.jira_service import JiraService
-from ..schemas.jira_task import JiraTaskResponse
 from pydantic import BaseModel
 import uuid
 
@@ -52,7 +51,7 @@ async def get_sprints(board_id: str, db: Session = Depends(get_db)):
 
 @router.post("/link")
 async def link_merge_request_to_task(link_request: LinkRequest, db: Session = Depends(get_db)):
-    """Link a merge request to a Jira task"""
+    
     jira_service = JiraService(db)
     try:
         success = jira_service.link_merge_request_to_jira_task(

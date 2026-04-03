@@ -1,3 +1,4 @@
+from datetime import datetime
 from pydantic import BaseModel
 from typing import Optional
 import uuid
@@ -22,7 +23,7 @@ class AlertUpdate(BaseModel):
 class AlertResponse(AlertBase):
     id: uuid.UUID
     project_id: uuid.UUID
-    created_at: str
+    created_at: datetime
 
     class Config:
         from_attributes = True

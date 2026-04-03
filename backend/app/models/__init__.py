@@ -1,17 +1,17 @@
 from .user import User, UserRole
-from .project import Project
+from .project import Project, ProjectStatus
 from .jira_task import JiraTask
-from .merge_request import MergeRequest
+from .merge_request import MergeRequest, MergeRequestStatus
 from .commit import Commit, CommitType
 from .review_comment import ReviewComment
-from .alert import Alert
+from .alert import Alert, AlertSeverity
 
 __all__ = [
     "User", "UserRole",
-    "Project", 
+    "Project", "ProjectStatus",
     "JiraTask",
-    "MergeRequest",
+    "MergeRequest", "MergeRequestStatus",
     "Commit", "CommitType",
     "ReviewComment",
-    "Alert"
+    "Alert", "AlertSeverity",
 ]

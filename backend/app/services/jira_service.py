@@ -1,6 +1,5 @@
 from sqlalchemy.orm import Session
 from typing import List, Dict, Any, Optional
-from httpx import AsyncClient
 from ..models.jira_task import JiraTask
 from ..core.config import settings
 import uuid

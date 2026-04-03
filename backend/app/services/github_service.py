@@ -1,10 +1,8 @@
 from sqlalchemy.orm import Session
-from typing import List, Dict, Any, Optional
-from httpx import AsyncClient
+from typing import List, Dict, Any
 from ..models.merge_request import MergeRequest
 from ..models.commit import Commit
 from ..models.user import User
-from ..models.project import Project
 from ..core.config import settings
 import uuid
 from datetime import datetime
@@ -68,17 +66,33 @@ class GitHubService:
 
     async def sync_commits(self, repo_owner: str, repo_name: str, project_id: uuid.UUID) -> List[Commit]:
         commits_data = await self.fetch_commits(repo_owner, repo_name)
-        synced_commits = []
+        synced_commits: List[Commit] = []
+
+        # Commits must belong to a MergeRequest — use the first one found for this project
+        merge_request = self.db.query(MergeRequest).filter(MergeRequest.project_id == project_id).first()
+        if not merge_request:
+            return synced_commits
 
         for commit_data in commits_data:
             user = self.db.query(User).filter(User.email == commit_data["author"]["email"]).first()
             if not user:
                 continue
-            existing_commit = self.db.query(Commit).filter(Commit.sha == commit_data["sha"]).first()
-            if existing_commit:
-                continue
-            pass
 
+            # Skip duplicates — sha is the unique identifier for a commit
+            if self.db.query(Commit).filter(Commit.sha == commit_data["sha"]).first():
+                continue
+
+            commit = Commit(
+                sha=commit_data["sha"],
+                message=commit_data["message"],
+                author_id=user.id,
+                merge_request_id=merge_request.id,
+                date=datetime.fromisoformat(commit_data["date"].replace("Z", "+00:00")),
+            )
+            self.db.add(commit)
+            synced_commits.append(commit)
+
+        self.db.commit()
         return synced_commits
 
     async def sync_pull_requests(self, repo_owner: str, repo_name: str, project_id: uuid.UUID) -> List[MergeRequest]:
